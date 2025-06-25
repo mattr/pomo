@@ -8,6 +8,11 @@ import (
     "time"
 )
 
+const (
+    DefaultWorkDuration = 20 // default work duration in minutes
+    DefaultRestDuration = 5  // default rest duration in minutes
+)
+
 func startWorkTimer(duration time.Duration) {
     fmt.Println("Working...")
 
@@ -65,7 +70,7 @@ func main() {
 
     switch command {
     case "work":
-        duration := 20 // default duration in minutes
+        duration := DefaultWorkDuration
         if len(os.Args) >= 3 {
             d, err := strconv.Atoi(os.Args[2])
             if err == nil && d > 0 {
@@ -74,7 +79,7 @@ func main() {
         }
         startWorkTimer(time.Duration(duration) * time.Minute)
     case "rest":
-        duration := 5 // default duration in minutes
+        duration := DefaultRestDuration
         if len(os.Args) >= 3 {
             d, err := strconv.Atoi(os.Args[2])
             if err == nil && d > 0 {
@@ -83,8 +88,8 @@ func main() {
         }
         startRestTimer(time.Duration(duration) * time.Minute)
     case "timer":
-        workDuration := 20 // default work duration in minutes
-        restDuration := 5  // default rest duration in minutes
+        workDuration := DefaultWorkDuration
+        restDuration := DefaultRestDuration
         
         if len(os.Args) >= 3 {
             w, err := strconv.Atoi(os.Args[2])
