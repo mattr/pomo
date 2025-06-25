@@ -42,12 +42,12 @@ func displayTimer(duration time.Duration, color string) {
 }
 
 func startWorkTimer(duration time.Duration) {
-	fmt.Println("Working...")
+	fmt.Println("Do some work...")
 	displayTimer(duration, "green")
 }
 
 func startRestTimer(duration time.Duration) {
-	fmt.Println("Resting...")
+	fmt.Println("Take a break...")
 	displayTimer(duration, "red")
 }
 
