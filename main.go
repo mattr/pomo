@@ -83,16 +83,27 @@ func main() {
         }
         startRestTimer(time.Duration(duration) * time.Minute)
     case "timer":
-        if len(os.Args) < 4 {
-            fmt.Println("Please provide work and rest durations in minutes")
-            return
+        workDuration := 20 // default work duration in minutes
+        restDuration := 5  // default rest duration in minutes
+        
+        if len(os.Args) >= 3 {
+            w, err := strconv.Atoi(os.Args[2])
+            if err != nil || w <= 0 {
+                fmt.Println("Invalid work duration provided")
+                return
+            }
+            workDuration = w
         }
-        workDuration, err1 := strconv.Atoi(os.Args[2])
-        restDuration, err2 := strconv.Atoi(os.Args[3])
-        if err1 != nil || err2 != nil || workDuration <= 0 || restDuration <= 0 {
-            fmt.Println("Invalid durations provided")
-            return
+        
+        if len(os.Args) >= 4 {
+            r, err := strconv.Atoi(os.Args[3])
+            if err != nil || r <= 0 {
+                fmt.Println("Invalid rest duration provided")
+                return
+            }
+            restDuration = r
         }
+        
         startTimerLoop(time.Duration(workDuration)*time.Minute, time.Duration(restDuration)*time.Minute)
     default:
         fmt.Println("Unknown command:", command)
