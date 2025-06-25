@@ -13,9 +13,7 @@ const (
     DefaultRestDuration = 5  // default rest duration in minutes
 )
 
-func startWorkTimer(duration time.Duration) {
-    fmt.Println("Working...")
-
+func displayTimer(duration time.Duration) {
     totalSeconds := int(duration.Seconds())
     progressWidth := 80
 
@@ -33,24 +31,14 @@ func startWorkTimer(duration time.Duration) {
     fmt.Println("\nTime's up!")
 }
 
+func startWorkTimer(duration time.Duration) {
+    fmt.Println("Working...")
+    displayTimer(duration)
+}
+
 func startRestTimer(duration time.Duration) {
     fmt.Println("Resting...")
-
-    totalSeconds := int(duration.Seconds())
-    progressWidth := 80
-
-    for elapsedSeconds := 0; elapsedSeconds <= totalSeconds; elapsedSeconds++ {
-        percentComplete := float64(elapsedSeconds) / float64(totalSeconds)
-        completedWidth := int(percentComplete * float64(progressWidth))
-        remainingWidth := progressWidth - completedWidth
-
-        progressBar := "[" + strings.Repeat("=", completedWidth) + strings.Repeat(" ", remainingWidth) + "]"
-        timeRemaining := time.Duration(totalSeconds - elapsedSeconds) * time.Second
-
-        fmt.Printf("\r%s %s remaining", progressBar, timeRemaining)
-        time.Sleep(1 * time.Second)
-    }
-    fmt.Println("\nTime's up!")
+    displayTimer(duration)
 }
 
 func startTimerLoop(workDuration, restDuration time.Duration) {
