@@ -17,6 +17,12 @@ func displayTimer(duration time.Duration, color string) {
 	totalSeconds := int(duration.Seconds())
 	progressWidth := 80
 
+	// Handle zero or very short durations
+	if totalSeconds <= 0 {
+		fmt.Println("\nTime's up!")
+		return
+	}
+
 	// ANSI color codes
 	colorCode := ""
 	resetCode := "\033[0m"
