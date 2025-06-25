@@ -32,7 +32,7 @@ func displayTimer(duration time.Duration, color string) {
         completedWidth := int(percentComplete * float64(progressWidth))
         remainingWidth := progressWidth - completedWidth
 
-        progressBar := "[" + colorCode + strings.Repeat("=", completedWidth) + resetCode + strings.Repeat(" ", remainingWidth) + "]"
+        progressBar := "[" + colorCode + strings.Repeat("█", completedWidth) + resetCode + strings.Repeat(" ", remainingWidth) + "]"
         timeRemaining := time.Duration(totalSeconds - elapsedSeconds) * time.Second
 
         fmt.Printf("\r%s %s remaining", progressBar, timeRemaining)
