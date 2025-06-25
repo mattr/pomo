@@ -268,15 +268,16 @@ func TestStartRestTimerExists(t *testing.T) {
 func TestStartTimerLoopExists(t *testing.T) {
     // Test that startTimerLoop function exists by checking we can reference it
     // We can't actually test the infinite loop without complex mocking
-    if startTimerLoop == nil {
-        t.Error("startTimerLoop function should exist")
-    }
     
     // Test the function signature is correct by creating a function variable
     var timerFunc func(time.Duration, time.Duration)
     timerFunc = startTimerLoop
     
+    // If we can assign the function, it exists and has the correct signature
     if timerFunc == nil {
-        t.Error("startTimerLoop should match expected function signature")
+        t.Error("startTimerLoop assignment failed")
     }
+    
+    // Alternative test: just verify we can reference the function without error
+    _ = startTimerLoop
 }
