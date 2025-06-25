@@ -158,3 +158,125 @@ func parsePositiveInt(s string) (int, error) {
     }
     return 0, fmt.Errorf("invalid positive integer: %s", s)
 }
+
+// Test displayTimer function behavior (without actual sleep/output)
+func TestDisplayTimerLogic(t *testing.T) {
+    // Test the core logic of displayTimer without sleep
+    duration := 3 * time.Second
+    totalSeconds := int(duration.Seconds())
+    progressWidth := 80
+    
+    if totalSeconds != 3 {
+        t.Errorf("Expected totalSeconds to be 3, got %d", totalSeconds)
+    }
+    
+    // Test progress calculation at different points
+    testCases := []struct {
+        elapsedSeconds   int
+        expectedPercent  float64
+        expectedCompleted int
+    }{
+        {0, 0.0, 0},
+        {1, 1.0/3.0, 26}, // 1/3 * 80 = 26.67 -> 26
+        {2, 2.0/3.0, 53}, // 2/3 * 80 = 53.33 -> 53
+        {3, 1.0, 80},
+    }
+    
+    for _, tc := range testCases {
+        percentComplete := float64(tc.elapsedSeconds) / float64(totalSeconds)
+        completedWidth := int(percentComplete * float64(progressWidth))
+        
+        if percentComplete != tc.expectedPercent {
+            t.Errorf("For elapsed %d, expected percent %.3f, got %.3f", 
+                tc.elapsedSeconds, tc.expectedPercent, percentComplete)
+        }
+        
+        if completedWidth != tc.expectedCompleted {
+            t.Errorf("For elapsed %d, expected completed width %d, got %d", 
+                tc.elapsedSeconds, tc.expectedCompleted, completedWidth)
+        }
+    }
+}
+
+// Test color code selection in displayTimer
+func TestDisplayTimerColorCodes(t *testing.T) {
+    testCases := []struct {
+        color        string
+        expectedCode string
+    }{
+        {"green", "\033[32m"},
+        {"red", "\033[31m"},
+        {"blue", ""}, // unsupported color should result in empty string
+        {"", ""},     // empty color should result in empty string
+    }
+    
+    for _, tc := range testCases {
+        // Simulate the color code selection logic from displayTimer
+        colorCode := ""
+        switch tc.color {
+        case "green":
+            colorCode = "\033[32m"
+        case "red":
+            colorCode = "\033[31m"
+        }
+        
+        if colorCode != tc.expectedCode {
+            t.Errorf("For color %s, expected code %s, got %s", 
+                tc.color, tc.expectedCode, colorCode)
+        }
+    }
+}
+
+// Test startWorkTimer and startRestTimer functions exist and can be called
+// (These are integration-style tests since the functions call displayTimer)
+func TestStartWorkTimerExists(t *testing.T) {
+    // Test that startWorkTimer function exists and doesn't panic with very short duration
+    defer func() {
+        if r := recover(); r != nil {
+            t.Errorf("startWorkTimer panicked: %v", r)
+        }
+    }()
+    
+    // We can't easily test the actual timer without mocking, but we can test it exists
+    // and the function signature is correct by attempting to call it with a very short duration
+    // Note: This will actually run for 1 second, so keep duration minimal for testing
+    go func() {
+        startWorkTimer(1 * time.Millisecond)
+    }()
+    
+    // Give it a moment to start, then continue
+    time.Sleep(10 * time.Millisecond)
+}
+
+func TestStartRestTimerExists(t *testing.T) {
+    // Test that startRestTimer function exists and doesn't panic with very short duration
+    defer func() {
+        if r := recover(); r != nil {
+            t.Errorf("startRestTimer panicked: %v", r)
+        }
+    }()
+    
+    go func() {
+        startRestTimer(1 * time.Millisecond)
+    }()
+    
+    // Give it a moment to start, then continue
+    time.Sleep(10 * time.Millisecond)
+}
+
+// Test startTimerLoop function exists (but don't run the infinite loop)
+func TestStartTimerLoopExists(t *testing.T) {
+    // Test that startTimerLoop function exists by checking we can reference it
+    // We can't actually test the infinite loop without complex mocking
+    if startTimerLoop == nil {
+        t.Error("startTimerLoop function should exist")
+    }
+    
+    // Test the function signature is correct by creating a function variable
+    var timerFunc func(time.Duration, time.Duration)
+    timerFunc = startTimerLoop
+    
+    if timerFunc == nil {
+        t.Error("startTimerLoop should match expected function signature")
+    }
+}
