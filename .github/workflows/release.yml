@@ -27,10 +27,14 @@ jobs:
     - name: Build binaries
       run: |
         # Build for multiple platforms
-        GOOS=linux GOARCH=amd64 go build -o pomo-linux-amd64 main.go
-        GOOS=darwin GOARCH=amd64 go build -o pomo-darwin-amd64 main.go
-        GOOS=darwin GOARCH=arm64 go build -o pomo-darwin-arm64 main.go
-        GOOS=windows GOARCH=amd64 go build -o pomo-windows-amd64.exe main.go
+        GOOS=linux GOARCH=amd64 go build -o pomo main.go
+        mv pomo pomo-linux-amd64
+        GOOS=darwin GOARCH=amd64 go build -o pomo main.go
+        mv pomo pomo-darwin-amd64
+        GOOS=darwin GOARCH=arm64 go build -o pomo main.go
+        mv pomo pomo-darwin-arm64
+        GOOS=windows GOARCH=amd64 go build -o pomo.exe main.go
+        mv pomo.exe pomo-windows-amd64.exe
     
     - name: Create Release
       uses: softprops/action-gh-release@v2

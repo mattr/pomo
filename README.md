@@ -2,6 +2,28 @@
 
 A simple command-line pomodoro timer written in Go.
 
+## Installation
+
+### Option 1: Download from GitHub Releases
+Download the latest release for your platform from the [releases page](https://github.com/mattr/pomo/releases) and add it to your PATH.
+
+### Option 2: Install with Go
+```sh
+go install github.com/mattr/pomo@latest
+```
+
+### Option 3: Build from Source
+```sh
+git clone https://github.com/mattr/pomo.git
+cd pomo
+go build . && ./pomo
+```
+
+### Option 4: Run Directly (Development)
+```sh
+go run .
+```
+
 ## Usage
 
 Pomo supports three main commands:
@@ -12,10 +34,10 @@ Start a single work session. Default duration is 20 minutes.
 
 ```sh
 # Use default work duration (20 minutes)
-go run main.go work
+pomo work
 
 # Specify custom work duration (in minutes)
-go run main.go work 25
+pomo work 25
 ```
 
 ### Rest Timer
@@ -24,10 +46,10 @@ Start a single rest session. Default duration is 5 minutes.
 
 ```sh
 # Use default rest duration (5 minutes)
-go run main.go rest
+pomo rest
 
 # Specify custom rest duration (in minutes)
-go run main.go rest 10
+pomo rest 10
 ```
 
 ### Timer Loop
@@ -36,38 +58,24 @@ Start an infinite loop alternating between work and rest sessions.
 
 ```sh
 # Use default durations (20 minutes work, 5 minutes rest)
-go run main.go timer
+pomo timer
 
 # Specify custom work duration, default rest duration
-go run main.go timer 25
+pomo timer 25
 
 # Specify both work and rest durations
-go run main.go timer 25 10
+pomo timer 25 10
 ```
 
 ## Examples
 
 ```sh
 # Quick 5-minute work session
-go run main.go work 5
+pomo work 5
 
 # Standard pomodoro (25 minutes work, 5 minutes rest) loop
-go run main.go timer 25 5
+pomo timer 25 5
 
 # Long rest break
-go run main.go rest 15
-```
-
-## Building
-
-To build the executable:
-
-```sh
-go build -o pomo main.go
-```
-
-Then run with:
-
-```sh
-./pomo work 25
+pomo rest 15
 ```
