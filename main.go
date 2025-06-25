@@ -61,12 +61,10 @@ func startTimerLoop(workDuration, restDuration time.Duration) {
 }
 
 func main() {
-    if len(os.Args) < 2 {
-        fmt.Println("Please provide a command: work, rest, or timer")
-        return
+    command := "timer" // default command
+    if len(os.Args) >= 2 {
+        command = os.Args[1]
     }
-
-    command := os.Args[1]
 
     switch command {
     case "work":
