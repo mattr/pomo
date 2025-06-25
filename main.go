@@ -35,7 +35,7 @@ func displayTimer(duration time.Duration, color string) {
         progressBar := colorCode + strings.Repeat("█", completedWidth) + resetCode + strings.Repeat(" ", remainingWidth)
         timeRemaining := time.Duration(totalSeconds - elapsedSeconds) * time.Second
 
-        fmt.Printf("\r%s %s remaining", progressBar, timeRemaining)
+        fmt.Printf("\r%s [%s remaining]", progressBar, timeRemaining)
         time.Sleep(1 * time.Second)
     }
     fmt.Println("\nTime's up!")
